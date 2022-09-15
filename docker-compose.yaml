@@ -3,7 +3,7 @@ services:
  frontend:
    build: .
    container_name: dumbways-frontend
-   image: malikalrk/dumbways-fe:1.1
+   image: dumbways-fe:latest
    stdin_open: true
    ports:
     - 3000:3000

@@ -4,10 +4,12 @@ def remotename = "jenkins-fe"
 def workdir = "~/dumbflix-frontend/"
 def ip = "116.193.191.120"
 def username = "kelompok1"
-def imagename = "dumbflix-fe"
+def imagename = "dumbways-fe"
 def sshkeyid = "app-server"
 def telegramapi = "5671860635:AAFmz1Wp2zX_XS_Ur3c5OXjyKCG2k9bxLL8"
 def telegramid = "-707481763"
+def dockerusername = "malikalrk"
+
 pipeline {
     agent any
 
@@ -56,6 +58,24 @@ pipeline {
             }
         }
 
+        stage('Push to Docker Hub') {
+            steps {
+                sshagent(credentials: ["${sshkeyid}"]) {
+                        sh """
+                                ssh -l ${dockerusername} ${ip} <<pwd
+                                docker tag ${imagename}:${env.BUILD_ID} ${dockerusername}/${imagename}:${env.BUILD_ID}
+                                docker tag ${imagename}:latest ${dockerusername}/${imagename}:latest
+                                docker image push ${dockerusername}/${imagename}:latest
+                                docker image push ${dockerusername}/${imagename}:${env.BUILD_ID}
+                                docker image rm ${dockerusername}/${imagename}:latest
+                                docker image rm ${dockerusername}/${imagename}:${env.BUILD_ID}
+                                docker image rm ${imagename}:${env.BUILD_ID}
+                                pwd
+                        """
+                }
+            }
+        }
+
         stage('Send Success Notification') {
             steps {
                 sh """
@@ -64,6 +84,3 @@ pipeline {
                 """
             }
         }
-
-    }
-}
