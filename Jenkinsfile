@@ -62,7 +62,7 @@ pipeline {
             steps {
                 sshagent(credentials: ["${sshkeyid}"]) {
                         sh """
-                                ssh -l ${dockerusername} ${ip} <<pwd
+                                ssh -l ${username} ${ip} <<pwd
                                 docker tag ${imagename}:${env.BUILD_ID} ${dockerusername}/${imagename}:${env.BUILD_ID}
                                 docker tag ${imagename}:latest ${dockerusername}/${imagename}:latest
                                 docker image push ${dockerusername}/${imagename}:latest
