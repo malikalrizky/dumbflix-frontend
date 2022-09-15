@@ -6,8 +6,6 @@ def ip = "116.193.191.120"
 def username = "kelompok1"
 def imagename = "dumbways-fe"
 def sshkeyid = "app-server"
-def telegramapi = "5671860635:AAFmz1Wp2zX_XS_Ur3c5OXjyKCG2k9bxLL8"
-def telegramid = "-707481763"
 def dockerusername = "malikalrk"
 
 pipeline {
